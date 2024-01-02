@@ -13,13 +13,15 @@ APBatPawn::APBatPawn()
 	PrimaryActorTick.bCanEverTick = true;
 
 	BatMesh = CreateDefaultSubobject<UStaticMeshComponent>("Bat Mesh");
-	BatMesh->SetupAttachment(RootComponent);
+	//BatMesh->SetupAttachment(RootComponent);
 	BatMesh->SetRelativeScale3D(RelativeBatScale);
 	BatMesh->SetRelativeLocation(RelativeBatLocation);
 	
 	GameCamera = CreateDefaultSubobject<UCameraComponent>("Game Camera");
-	GameCamera->SetupAttachment(RootComponent);
+	//GameCamera->SetupAttachment(RootComponent);
 	GameCamera->SetWorldLocation(WorldCameraLocation);
+	RootComponent = GameCamera;
+	BatMesh->SetupAttachment(RootComponent);
 	
 	ProjectileSpawnPlayer1 = CreateDefaultSubobject<USceneComponent>("Projectile Spawn Player 1");
 	ProjectileSpawnPlayer1->SetupAttachment(BatMesh);
