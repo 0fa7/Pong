@@ -15,4 +15,10 @@ class PONG_API APGameMode : public AGameModeBase
 	GENERATED_BODY()
 public:
 	APGameMode();
+
+	void SpawnProjectile();
+
+	int32 LastPlayerToScore = 0;
+
+	bool bIsProjectileInPlay = false;
 };

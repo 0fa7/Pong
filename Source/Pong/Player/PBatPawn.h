@@ -9,6 +9,7 @@
 class UStaticMeshComponent;
 class UCameraComponent;
 class UBoxComponent;
+class APProjectile;
 
 UCLASS()
 class PONG_API APBatPawn : public APawn
@@ -31,6 +32,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void MoveBat(float Direction);
+
+	void SpawnProjectile(bool bSpawnOnRightSide);
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UCameraComponent> GameCamera;
@@ -56,6 +59,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	float ProjectileSpawnOffset = 300.f;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<APProjectile> ProjectileClass;
+	
 	UPROPERTY(EditAnywhere)
 	FVector SpawnLocation1;
 

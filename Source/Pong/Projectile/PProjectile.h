@@ -23,4 +23,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UStaticMeshComponent> ProjectileMesh;
+
+	UPROPERTY(EditAnywhere)
+	FVector RelativeProjectileScale = {1.f, 1.f, 1.f};
 };

@@ -5,7 +5,9 @@
 
 #include "Components/StaticMeshComponent.h"
 #include "Camera/CameraComponent.h"
-#include "Components/BoxComponent.h"
+#include "Pong/Projectile/PProjectile.h"
+#include "Kismet/GameplayStatics.h"
+#include "Pong/Game/PGameMode.h"
 
 // Sets default values
 APBatPawn::APBatPawn()
@@ -42,7 +44,8 @@ APBatPawn::APBatPawn()
 void APBatPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	auto GameMode = Cast<APGameMode>(UGameplayStatics::GetGameMode(this));
+	GameMode->SpawnProjectile();
 }
 
 // Called every frame
@@ -62,4 +65,18 @@ void APBatPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void APBatPawn::MoveBat(float Direction)
 {
 	BatMesh->AddRelativeLocation(FVector(0.f,0.f,Direction * BatSpeed * GetWorld()->GetDeltaSeconds()), true);
+}
+
+void APBatPawn::SpawnProjectile(bool bSpawnOnRightSide)
+{
+	if(bSpawnOnRightSide == true)
+	{
+		UE_LOG(LogTemp, Display, TEXT("APBatPawn::SpawnProjectile(bool bSpawnOnRightSide)"));
+		auto Projectile = GetWorld()->SpawnActor<APProjectile>(ProjectileClass, SpawnLocation1, FRotator::ZeroRotator);
+		//this->AttachToComponent()
+	}
+	else
+	{
+		
+	}
 }
