@@ -8,6 +8,7 @@
 
 class UInputMappingContext;
 class UInputAction;
+struct FInputActionValue;
 
 UCLASS()
 class PONG_API APPlayerController : public APlayerController
@@ -26,6 +27,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
-	void MoveBatCallback();
+	void MoveBatCallback(const FInputActionValue& Value);
 	void LaunchProjectileCallback();
 };

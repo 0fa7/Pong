@@ -4,7 +4,8 @@
 #include "PPlayerController.h"
 
 #include "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h" 
+#include "EnhancedInputComponent.h"
+#include "PBatPawn.h"
 
 void APPlayerController::BeginPlay()
 {
@@ -28,9 +29,14 @@ void APPlayerController::SetupInputComponent()
 	Input->BindAction(LaunchProjectileAction, ETriggerEvent::Triggered, this, &APPlayerController::LaunchProjectileCallback);
 }
 
-void APPlayerController::MoveBatCallback()
+void APPlayerController::MoveBatCallback(const FInputActionValue& Value)
 {
 	UE_LOG(LogTemp, Display, TEXT("APPlayerController::MoveBatCallback()"));
+
+	if(auto Bat = Cast<APBatPawn>(GetPawn()))
+	{
+		Bat->MoveBat(Value.Get<FVector>().X);
+	}
 }
 
 void APPlayerController::LaunchProjectileCallback()

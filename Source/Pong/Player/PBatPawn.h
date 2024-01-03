@@ -8,7 +8,7 @@
 
 class UStaticMeshComponent;
 class UCameraComponent;
-
+class UBoxComponent;
 
 UCLASS()
 class PONG_API APBatPawn : public APawn
@@ -30,6 +30,14 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void MoveBat(float Direction);
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UCameraComponent> GameCamera;
+
+	UPROPERTY(EditAnywhere)
+	FVector WorldCameraLocation = {0.f, 0.f,0.f};
+	
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UStaticMeshComponent> BatMesh;
 	
@@ -38,13 +46,7 @@ public:
 	
 	UPROPERTY(EditAnywhere)
 	FVector RelativeBatLocation = {0.f, 0.f,-50.f};
-
-	UPROPERTY(EditAnywhere)
-	TObjectPtr<UCameraComponent> GameCamera;
-
-	UPROPERTY(EditAnywhere)
-	FVector WorldCameraLocation = {0.f, 0.f,0.f};
-
+	
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<USceneComponent> ProjectileSpawnPlayer1;
 
@@ -59,4 +61,7 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	FVector SpawnLocation2;
+
+	UPROPERTY(EditAnywhere)
+	float BatSpeed = 100.f;
 };
