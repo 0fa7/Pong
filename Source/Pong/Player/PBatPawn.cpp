@@ -26,17 +26,17 @@ APBatPawn::APBatPawn()
 	BatMesh->SetGenerateOverlapEvents(true);
 	BatMesh->SetupAttachment(RootComponent);
 	
-	ProjectileSpawnPlayer1 = CreateDefaultSubobject<USceneComponent>("Projectile Spawn Player 1");
-	ProjectileSpawnPlayer1->SetupAttachment(BatMesh);
-	SpawnLocation1 = -1.f * RelativeBatLocation;
-	SpawnLocation1.Y += ProjectileSpawnOffset;
-	ProjectileSpawnPlayer1->SetRelativeLocation(SpawnLocation1);
+	ProjectileSpawnLocation1 = CreateDefaultSubobject<USceneComponent>("Projectile Spawn Player 1");
+	ProjectileSpawnLocation1->SetupAttachment(BatMesh);
+	SpawnOffset1 = -1.f * RelativeBatLocation;
+	SpawnOffset1.Y += ProjectileSpawnOffset;
+	ProjectileSpawnLocation1->SetRelativeLocation(SpawnOffset1);
 	
-	ProjectileSpawnPlayer2 = CreateDefaultSubobject<USceneComponent>("Projectile Spawn Player 2");
-	ProjectileSpawnPlayer2->SetupAttachment(BatMesh);
-	SpawnLocation2 = -1.f * RelativeBatLocation;
-	SpawnLocation2.Y -= ProjectileSpawnOffset;
-	ProjectileSpawnPlayer2->SetRelativeLocation(SpawnLocation2);
+	ProjectileSpawnLocation2 = CreateDefaultSubobject<USceneComponent>("Projectile Spawn Player 2");
+	ProjectileSpawnLocation2->SetupAttachment(BatMesh);
+	SpawnOffset2 = -1.f * RelativeBatLocation;
+	SpawnOffset2.Y -= ProjectileSpawnOffset;
+	ProjectileSpawnLocation2->SetRelativeLocation(SpawnOffset2);
 	
 }
 
@@ -71,12 +71,10 @@ void APBatPawn::SpawnProjectile(bool bSpawnOnRightSide)
 {
 	if(bSpawnOnRightSide == true)
 	{
-		UE_LOG(LogTemp, Display, TEXT("APBatPawn::SpawnProjectile(bool bSpawnOnRightSide)"));
-		auto Projectile = GetWorld()->SpawnActor<APProjectile>(ProjectileClass, SpawnLocation1, FRotator::ZeroRotator);
-		//this->AttachToComponent()
+		auto Projectile = GetWorld()->SpawnActor<APProjectile>(ProjectileClass, ProjectileSpawnLocation1->GetComponentLocation(), FRotator::ZeroRotator);
 	}
 	else
 	{
-		
+		auto Projectile = GetWorld()->SpawnActor<APProjectile>(ProjectileClass, ProjectileSpawnLocation2->GetComponentLocation(), FRotator::ZeroRotator);
 	}
 }

@@ -51,10 +51,10 @@ public:
 	FVector RelativeBatLocation = {0.f, 0.f,-50.f};
 	
 	UPROPERTY(EditAnywhere)
-	TObjectPtr<USceneComponent> ProjectileSpawnPlayer1;
+	TObjectPtr<USceneComponent> ProjectileSpawnLocation1;
 
 	UPROPERTY(EditAnywhere)
-	TObjectPtr<USceneComponent> ProjectileSpawnPlayer2;
+	TObjectPtr<USceneComponent> ProjectileSpawnLocation2;
 
 	UPROPERTY(EditAnywhere)
 	float ProjectileSpawnOffset = 300.f;
@@ -63,10 +63,10 @@ public:
 	TSubclassOf<APProjectile> ProjectileClass;
 	
 	UPROPERTY(EditAnywhere)
-	FVector SpawnLocation1;
+	FVector SpawnOffset1;
 
 	UPROPERTY(EditAnywhere)
-	FVector SpawnLocation2;
+	FVector SpawnOffset2;
 
 	UPROPERTY(EditAnywhere)
 	float BatSpeed = 100.f;

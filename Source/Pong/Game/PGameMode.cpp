@@ -24,7 +24,6 @@ void APGameMode::SpawnProjectile()
 
 	if(LastPlayerToScore == 0 || LastPlayerToScore == 1)
 	{
-		UE_LOG(LogTemp, Display, TEXT("APGameMode::SpawnProjectile()"));
 		BatPawn->SpawnProjectile(true);
 	}
 	else
