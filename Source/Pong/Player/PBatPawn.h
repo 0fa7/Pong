@@ -35,6 +35,8 @@ public:
 
 	void SpawnProjectile(bool bSpawnOnRightSide);
 
+	void Launch();
+
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UCameraComponent> GameCamera;
 
@@ -70,4 +72,6 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	float BatSpeed = 100.f;
+
+	TObjectPtr<APProjectile> CurrentProjectile;
 };

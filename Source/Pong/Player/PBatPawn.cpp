@@ -8,6 +8,8 @@
 #include "Pong/Projectile/PProjectile.h"
 #include "Kismet/GameplayStatics.h"
 #include "Pong/Game/PGameMode.h"
+#include "Engine/EngineTypes.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 // Sets default values
 APBatPawn::APBatPawn()
@@ -26,18 +28,17 @@ APBatPawn::APBatPawn()
 	BatMesh->SetGenerateOverlapEvents(true);
 	BatMesh->SetupAttachment(RootComponent);
 	
-	ProjectileSpawnLocation1 = CreateDefaultSubobject<USceneComponent>("Projectile Spawn Player 1");
+	ProjectileSpawnLocation1 = CreateDefaultSubobject<USceneComponent>("ProjectileSpawnPlayer1");
 	ProjectileSpawnLocation1->SetupAttachment(BatMesh);
 	SpawnOffset1 = -1.f * RelativeBatLocation;
 	SpawnOffset1.Y += ProjectileSpawnOffset;
 	ProjectileSpawnLocation1->SetRelativeLocation(SpawnOffset1);
 	
-	ProjectileSpawnLocation2 = CreateDefaultSubobject<USceneComponent>("Projectile Spawn Player 2");
+	ProjectileSpawnLocation2 = CreateDefaultSubobject<USceneComponent>("ProjectileSpawnPlayer2");
 	ProjectileSpawnLocation2->SetupAttachment(BatMesh);
 	SpawnOffset2 = -1.f * RelativeBatLocation;
 	SpawnOffset2.Y -= ProjectileSpawnOffset;
 	ProjectileSpawnLocation2->SetRelativeLocation(SpawnOffset2);
-	
 }
 
 // Called when the game starts or when spawned
@@ -52,6 +53,7 @@ void APBatPawn::BeginPlay()
 void APBatPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	DrawDebugSphere(GetWorld(), ProjectileSpawnLocation1->GetComponentLocation(), 1.f, 12, FColor::Blue);
 
 }
 
@@ -69,12 +71,43 @@ void APBatPawn::MoveBat(float Direction)
 
 void APBatPawn::SpawnProjectile(bool bSpawnOnRightSide)
 {
+	FVector SpawnLocation;
+	
 	if(bSpawnOnRightSide == true)
 	{
-		auto Projectile = GetWorld()->SpawnActor<APProjectile>(ProjectileClass, ProjectileSpawnLocation1->GetComponentLocation(), FRotator::ZeroRotator);
+		SpawnLocation = ProjectileSpawnLocation1->GetComponentLocation();
 	}
 	else
 	{
-		auto Projectile = GetWorld()->SpawnActor<APProjectile>(ProjectileClass, ProjectileSpawnLocation2->GetComponentLocation(), FRotator::ZeroRotator);
+		SpawnLocation = ProjectileSpawnLocation2->GetComponentLocation();
 	}
+	
+	FAttachmentTransformRules Rules(
+		EAttachmentRule::KeepWorld,
+		EAttachmentRule::KeepWorld,
+		EAttachmentRule::KeepWorld,
+		false
+	);
+	
+	CurrentProjectile = GetWorld()->SpawnActor<APProjectile>(ProjectileClass, SpawnLocation, FRotator::ZeroRotator);
+	CurrentProjectile->AttachToComponent(ProjectileSpawnLocation1, Rules);
 }
+
+void APBatPawn::Launch()
+{
+	if(CurrentProjectile == nullptr)
+	{
+		return;
+	}
+
+	FDetachmentTransformRules Rules(
+		EDetachmentRule::KeepWorld,
+		EDetachmentRule::KeepWorld,
+		EDetachmentRule::KeepWorld,
+		false
+	);
+	
+	CurrentProjectile->DetachAllSceneComponents(ProjectileSpawnLocation1, Rules);
+	CurrentProjectile->ProjectileComp->AddForce(FVector(.0f, CurrentProjectile->MaxSpeed, .0f));
+}
+

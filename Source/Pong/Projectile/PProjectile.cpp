@@ -2,6 +2,7 @@
 
 
 #include "PProjectile.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 // Sets default values
 APProjectile::APProjectile()
@@ -11,9 +12,16 @@ APProjectile::APProjectile()
 	
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>("Projectile Mesh");
 	ProjectileMesh->SetRelativeScale3D(RelativeProjectileScale);
-	ProjectileMesh->SetSimulatePhysics(true);
-	ProjectileMesh->SetGenerateOverlapEvents(true);
 	RootComponent = ProjectileMesh;
+
+	
+	ProjectileComp = CreateDefaultSubobject<UProjectileMovementComponent>("Projectile Comp");
+	ProjectileComp->Bounciness = 100.f;
+	ProjectileComp->bShouldBounce = true;
+	ProjectileComp->Friction = 0.f;
+	ProjectileComp->ProjectileGravityScale = 0.f;
+	ProjectileComp->MaxSpeed = MaxSpeed;
+	
 }
 
 // Called when the game starts or when spawned

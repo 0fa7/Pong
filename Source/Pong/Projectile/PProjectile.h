@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "PProjectile.generated.h"
 
+class UProjectileMovementComponent;
+
 UCLASS()
 class PONG_API APProjectile : public AActor
 {
@@ -27,5 +29,11 @@ public:
 	TObjectPtr<UStaticMeshComponent> ProjectileMesh;
 
 	UPROPERTY(EditAnywhere)
-	FVector RelativeProjectileScale = {1.f, 1.f, 1.f};
+	FVector RelativeProjectileScale = {.25f, .25f, .25f};
+
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UProjectileMovementComponent> ProjectileComp;
+
+	UPROPERTY(EditAnywhere)
+	float MaxSpeed = 5000.f;
 };

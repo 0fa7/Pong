@@ -42,4 +42,9 @@ void APPlayerController::MoveBatCallback(const FInputActionValue& Value)
 void APPlayerController::LaunchProjectileCallback()
 {
 	UE_LOG(LogTemp, Display, TEXT("APPlayerController::LaunchProjectileCallback()"));
+
+	if(auto Bat = Cast<APBatPawn>(GetPawn()))
+	{
+		Bat->Launch();
+	}
 }
